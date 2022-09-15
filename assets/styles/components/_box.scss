@@ -106,6 +106,28 @@
       display: flex;
       justify-content: flex-end;
     }
+
+    .pagination {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+      .pagination-button{
+        background-color: transparent;
+        border: none;
+      }
+      .enabled{
+        cursor: pointer;
+        transition: all 0.25s;
+        opacity: 0.7;
+        &:hover {
+          opacity: 1;
+        }
+      }
+      .disabled{
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
   }
 
   &-modal {

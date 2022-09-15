@@ -305,6 +305,39 @@ const actions = {
       nextDepositIndex
     })
   },
+  async updateSelectEventsWithIndex({ commit, state, rootGetters, getters }, { skip }) {
+    const netId = rootGetters['metamask/netId']
+    const { currency, amount } = state.selectedStatistic
+
+    const eventService = getters.eventsInterface.getService({ netId, amount, currency })
+
+    const graphEvents = await eventService.getEventsFromGraph({ methodName: 'getStatistic', skip })
+
+    let statistic = graphEvents?.events
+
+    if (!statistic || !statistic.length) {
+      const fresh = await eventService.getStatisticsRpc({ eventsCount: 10 })
+
+      statistic = fresh || []
+    }
+
+    statistic = statistic.sort((a, b) => a.leafIndex - b.leafIndex)
+
+    const latestDeposits = []
+
+    for (const event of statistic.slice(-10)) {
+      latestDeposits.unshift({
+        index: event.leafIndex,
+        depositTime: this.$moment.unix(event.timestamp).fromNow()
+      })
+    }
+
+    commit('SAVE_LAST_EVENTS', {
+      amount,
+      currency,
+      latestDeposits
+    })
+  },
   async updateEvents({ getters, rootGetters }, payload) {
     try {
       const eventService = getters.eventsInterface.getService(payload)

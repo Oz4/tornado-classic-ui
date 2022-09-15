@@ -206,14 +206,16 @@ class EventService {
     return events
   }
 
-  async getEventsFromGraph({ fromBlock, methodName }) {
+  async getEventsFromGraph({ fromBlock, methodName, skip }) {
     try {
       const { events, lastSyncBlock } = await graph[methodName]({
         fromBlock,
         netId: this.netId,
         amount: this.amount,
-        currency: this.currency
+        currency: this.currency,
+        skip
       })
+
       return {
         events,
         lastBlock: lastSyncBlock

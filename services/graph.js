@@ -49,7 +49,7 @@ const registryClient = new ApolloClient({
   defaultOptions
 })
 
-async function getStatistic({ currency, amount, netId }) {
+async function getStatistic({ currency, amount, netId, skip = 0 }) {
   try {
     const { data } = await client.query({
       context: {
@@ -61,7 +61,8 @@ async function getStatistic({ currency, amount, netId }) {
         first: 10,
         orderBy: 'index',
         orderDirection: 'desc',
-        amount: String(amount)
+        amount: String(amount),
+        skip
       }
     })
 

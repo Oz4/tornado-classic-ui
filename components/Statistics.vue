@@ -26,7 +26,10 @@
         </div>
         <template v-if="anonimitySet != 0">
           <div class="label">{{ $t('latestDeposits') }}</div>
-          <div v-if="latestDeposits && latestDeposits.length" class="columns is-small is-multiline">
+          <div
+            v-if="latestDeposits && latestDeposits.length && !updatingLatestDeposits"
+            class="columns is-small is-multiline"
+          >
             <div class="column is-half-small">
               <div class="deposits">
                 <div v-for="{ index, depositTime } in latestDeposits.slice(0, 5)" :key="index" class="row">
@@ -64,6 +67,22 @@
               </div>
             </div>
           </div>
+          <div class="pagination">
+            <button
+              class="pagination-button"
+              v-bind:class="`${isFirstPage ? 'disabled' : 'enabled'}`"
+              @click="paginatePrev"
+            >
+              <b-icon icon="arrow-left" size="is-small" />
+            </button>
+            <button
+              class="pagination-button"
+              v-bind:class="`${isLastPage ? 'disabled' : 'enabled'}`"
+              @click="paginateNext"
+            >
+              <b-icon icon="arrow-right" size="is-small" />
+            </button>
+          </div>
         </template>
       </div>
     </div>
@@ -80,7 +99,9 @@ export default {
   },
   data() {
     return {
-      timer: null
+      timer: null,
+      skip: 0,
+      updatingLatestDeposits: false
     }
   },
   computed: {
@@ -90,10 +111,17 @@ export default {
     anonimitySet() {
       const currency = this.selectedStatistic.currency.toLowerCase()
       return this.statistic[currency][this.selectedStatistic.amount].anonymitySet
+    },
+    isFirstPage() {
+      return this.skip === 0
+    },
+    isLastPage() {
+      return this.skip >= 5000
     }
   },
   mounted() {
     if (!this.timer) {
+      this.loadEvents()
       this.updateEvents()
     }
   },
@@ -101,12 +129,31 @@ export default {
     clearTimeout(this.timer)
   },
   methods: {
-    updateEvents() {
+    loadEvents() {
       this.$store.dispatch('application/updateSelectEvents')
+    },
+    updateEvents() {
+      this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.skip })
 
       this.timer = setTimeout(() => {
         this.updateEvents()
       }, 60 * 1000)
+    },
+    async paginateNext() {
+      if (this.skip < 5000) {
+        this.updatingLatestDeposits = true
+        this.skip += 10
+        await this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.skip })
+        this.updatingLatestDeposits = false
+      }
+    },
+    async paginatePrev() {
+      if (this.skip > 0) {
+        this.updatingLatestDeposits = true
+        this.skip -= 10
+        await this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.skip })
+        this.updatingLatestDeposits = false
+      }
     }
   }
 }
