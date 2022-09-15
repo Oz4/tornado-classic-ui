@@ -14444,9 +14444,9 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
-"snarkjs@git+https://github.com/tornadocash/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5":
+"snarkjs@git+https://github.com/tornadocash-community/snarkjs.git":
   version "0.1.20"
-  resolved "git+https://github.com/tornadocash/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5"
+  resolved "git+https://github.com/tornadocash-community/snarkjs.git#869181cfaf7526fe8972073d31655493a04326d5"
   dependencies:
     big-integer "^1.6.43"
     chai "^4.2.0"
@@ -16556,9 +16556,9 @@ webpackbar@^4.0.0:
     text-table "^0.2.0"
     wrap-ansi "^6.0.0"
 
-"websnark@git+https://github.com/tornadocash/websnark.git#4c0af6a8b65aabea3c09f377f63c44e7a58afa6d":
+"websnark@git+https://github.com/tornadocash-community/websnark.git":
   version "0.0.4"
-  resolved "git+https://github.com/tornadocash/websnark.git#4c0af6a8b65aabea3c09f377f63c44e7a58afa6d"
+  resolved "git+https://github.com/tornadocash-community/websnark.git#2041cfa5fa0b71cd5cca9022a4eeea4afe28c9f7"
   dependencies:
     big-integer "^1.6.42"
 
