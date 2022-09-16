@@ -1,5 +1,5 @@
 <template>
-  <div class="column is-half">
+  <div class="column is-half" :key="language">
     <div class="box-stats">
       <div class="tab-with-corner is-left-top">
         {{ $t('statistics') }}
@@ -133,6 +133,9 @@ export default {
     },
     isLastPage() {
       return this.statisticsIndex >= 5000
+    },
+    language() {
+      return this.$i18n.locale
     }
   },
   mounted() {
