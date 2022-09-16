@@ -1,5 +1,5 @@
 <template>
-  <div class="column is-half" :key="language">
+  <div :key="language" class="column is-half">
     <div class="box-stats">
       <div class="tab-with-corner is-left-top">
         {{ $t('statistics') }}
@@ -82,14 +82,14 @@
           <div class="pagination">
             <button
               class="pagination-button"
-              v-bind:class="`${isFirstPage ? 'disabled' : 'enabled'}`"
+              :class="`${isFirstPage ? 'disabled' : 'enabled'}`"
               @click="paginatePrev"
             >
               <b-icon icon="arrow-left" size="is-small" />
             </button>
             <button
               class="pagination-button"
-              v-bind:class="`${isLastPage ? 'disabled' : 'enabled'}`"
+              :class="`${isLastPage ? 'disabled' : 'enabled'}`"
               @click="paginateNext"
             >
               <b-icon icon="arrow-right" size="is-small" />
