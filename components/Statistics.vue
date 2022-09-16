@@ -137,6 +137,9 @@ export default {
       this.updateEvents()
     }
   },
+  updated() {
+    this.updateEvents()
+  },
   beforeDestroy() {
     clearTimeout(this.timer)
   },
