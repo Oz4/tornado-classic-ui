@@ -27,7 +27,7 @@
         <template v-if="anonimitySet != 0">
           <div class="label">{{ $t('latestDeposits') }}</div>
           <div
-            v-if="latestDeposits && latestDeposits.length && !updatingLatestDeposits"
+            v-if="latestDeposits && latestDeposits.length && !isFetchingStatisticsEvents"
             class="columns is-small is-multiline"
           >
             <div class="column is-half-small">
@@ -111,13 +111,17 @@ export default {
   },
   data() {
     return {
-      timer: null,
-      skip: 0,
-      updatingLatestDeposits: false
+      timer: null
     }
   },
   computed: {
-    ...mapState('application', ['ip', 'statistic', 'selectedStatistic']),
+    ...mapState('application', [
+      'ip',
+      'statistic',
+      'selectedStatistic',
+      'statisticsIndex',
+      'isFetchingStatisticsEvents'
+    ]),
     ...mapGetters('metamask', ['networkConfig']),
     ...mapGetters('application', ['selectedStatisticCurrency', 'latestDeposits']),
     anonimitySet() {
@@ -125,10 +129,10 @@ export default {
       return this.statistic[currency][this.selectedStatistic.amount].anonymitySet
     },
     isFirstPage() {
-      return this.skip === 0
+      return this.statisticsIndex === 0
     },
     isLastPage() {
-      return this.skip >= 5000
+      return this.statisticsIndex >= 5000
     }
   },
   mounted() {
@@ -144,27 +148,25 @@ export default {
     loadEvents() {
       this.$store.dispatch('application/updateSelectEvents')
     },
-    updateEvents() {
-      this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.skip })
-
+    async updateEvents() {
+      await this.$store.dispatch('application/updateSelectEventsWithIndex', {
+        skip: this.statisticsIndex,
+        isRefreshing: true
+      })
       this.timer = setTimeout(() => {
         this.updateEvents()
       }, 60 * 1000)
     },
     async paginateNext() {
-      if (this.skip < 5000) {
-        this.updatingLatestDeposits = true
-        this.skip += 10
-        await this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.skip })
-        this.updatingLatestDeposits = false
+      if (this.statisticsIndex < 5000) {
+        await this.$store.dispatch('application/updateStatisticsIndex', { index: this.statisticsIndex + 10 })
+        await this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.statisticsIndex })
       }
     },
     async paginatePrev() {
-      if (this.skip > 0) {
-        this.updatingLatestDeposits = true
-        this.skip -= 10
-        await this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.skip })
-        this.updatingLatestDeposits = false
+      if (this.statisticsIndex > 0) {
+        await this.$store.dispatch('application/updateStatisticsIndex', { index: this.statisticsIndex - 10 })
+        await this.$store.dispatch('application/updateSelectEventsWithIndex', { skip: this.statisticsIndex })
       }
     }
   }

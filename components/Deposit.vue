@@ -93,6 +93,7 @@ export default {
         const amount = selectedAmount
         this.$store.commit('application/SET_SELECTED_INSTANCE', { currency, amount })
         this.$store.dispatch('application/setAndUpdateStatistic', { currency, amount })
+        this.$store.dispatch('application/updateStatisticsIndex', { index: 0 })
       }
     },
     tokens() {

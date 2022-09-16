@@ -63,7 +63,9 @@ const state = () => {
     withdrawType: 'relayer',
     ethToReceive: '20000000000000000',
     defaultEthToReceive: '20000000000000000',
-    withdrawNote: ''
+    withdrawNote: '',
+    statisticsIndex: 0,
+    isFetchingStatisticsEvents: false
   }
 }
 
@@ -104,6 +106,12 @@ const mutations = {
   },
   SET_WITHDRAW_NOTE(state, withdrawNote) {
     state.withdrawNote = withdrawNote
+  },
+  SET_STATISTICS_INDEX(state, statisticsIndex) {
+    state.statisticsIndex = statisticsIndex
+  },
+  SET_IS_FETCHING_STATISTICS_EVENTS(state, isFetchingStatisticsEvents) {
+    state.isFetchingStatisticsEvents = isFetchingStatisticsEvents
   }
 }
 
@@ -261,6 +269,7 @@ const actions = {
     dispatch('updateSelectEvents')
   },
   async updateSelectEvents({ dispatch, commit, state, rootGetters, getters }) {
+    await dispatch('updateIsFetchingStatisitcsEvents', { isFetching: true })
     const netId = rootGetters['metamask/netId']
     const { currency, amount } = state.selectedStatistic
 
@@ -294,7 +303,7 @@ const actions = {
       })
     }
 
-    commit('SAVE_LAST_EVENTS', {
+    await commit('SAVE_LAST_EVENTS', {
       amount,
       currency,
       latestDeposits
@@ -305,8 +314,13 @@ const actions = {
       anonymitySet,
       nextDepositIndex
     })
+    await dispatch('updateIsFetchingStatisitcsEvents', { isFetching: false })
   },
-  async updateSelectEventsWithIndex({ commit, state, rootGetters, getters }, { skip }) {
+  async updateSelectEventsWithIndex(
+    { dispatch, commit, state, rootGetters, getters },
+    { skip, isRefreshing }
+  ) {
+    if (!isRefreshing) await dispatch('updateIsFetchingStatisitcsEvents', { isFetching: true })
     const netId = rootGetters['metamask/netId']
     const { currency, amount } = state.selectedStatistic
 
@@ -334,11 +348,12 @@ const actions = {
       })
     }
 
-    commit('SAVE_LAST_EVENTS', {
+    await commit('SAVE_LAST_EVENTS', {
       amount,
       currency,
       latestDeposits
     })
+    if (!isRefreshing) await dispatch('updateIsFetchingStatisitcsEvents', { isFetching: false })
   },
   async updateEvents({ getters, rootGetters }, payload) {
     try {
@@ -1014,6 +1029,12 @@ const actions = {
     } catch (err) {
       console.log('err', err.message)
     }
+  },
+  updateStatisticsIndex({ commit }, { index }) {
+    commit('SET_STATISTICS_INDEX', index)
+  },
+  updateIsFetchingStatisitcsEvents({ commit }, { isFetching }) {
+    commit('SET_IS_FETCHING_STATISTICS_EVENTS', isFetching)
   }
 }
 export default {
