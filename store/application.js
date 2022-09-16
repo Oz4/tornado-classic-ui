@@ -289,7 +289,8 @@ const actions = {
     for (const event of statistic.slice(-10)) {
       latestDeposits.unshift({
         index: event.leafIndex,
-        depositTime: this.$moment.unix(event.timestamp).fromNow()
+        depositTime: this.$moment.unix(event.timestamp).fromNow(),
+        depositDate: this.$moment.unix(event.timestamp).format('lll')
       })
     }
 
@@ -328,7 +329,8 @@ const actions = {
     for (const event of statistic.slice(-10)) {
       latestDeposits.unshift({
         index: event.leafIndex,
-        depositTime: this.$moment.unix(event.timestamp).fromNow()
+        depositTime: this.$moment.unix(event.timestamp).fromNow(),
+        depositDate: this.$moment.unix(event.timestamp).format('lll')
       })
     }
 

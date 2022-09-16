@@ -32,17 +32,29 @@
           >
             <div class="column is-half-small">
               <div class="deposits">
-                <div v-for="{ index, depositTime } in latestDeposits.slice(0, 5)" :key="index" class="row">
+                <div
+                  v-for="{ index, depositTime, depositDate } in latestDeposits.slice(0, 5)"
+                  :key="index"
+                  class="row"
+                >
                   <div class="value">{{ Number(index) + 1 }}.</div>
-                  <div class="data">{{ depositTime }}</div>
+                  <b-tooltip :label="depositDate" size="is-small" position="is-top" multilined>
+                    <div class="data">{{ depositTime }}</div>
+                  </b-tooltip>
                 </div>
               </div>
             </div>
             <div class="column is-half-small">
               <div class="deposits">
-                <div v-for="{ index, depositTime } in latestDeposits.slice(5, 10)" :key="index" class="row">
+                <div
+                  v-for="{ index, depositTime, depositDate } in latestDeposits.slice(5, 10)"
+                  :key="index"
+                  class="row"
+                >
                   <div class="value">{{ Number(index) + 1 }}.</div>
-                  <div class="data">{{ depositTime }}</div>
+                  <b-tooltip :label="depositDate" size="is-small" position="is-top" multilined>
+                    <div class="data">{{ depositTime }}</div>
+                  </b-tooltip>
                 </div>
               </div>
             </div>
