@@ -2,6 +2,7 @@ html {
   @media print {
     background-color: #fff !important;
   }
+  scrollbar-gutter: stable;
 }
 
 body {
