@@ -57,6 +57,11 @@
       background-image: url('../img/walletConnect.svg');
     }
 
+    &.is-coinbaseWallet:before {
+      border-radius: 50%;
+      background-image: url('../img/coinbaseWallet.svg');
+    }
+
     &.is-generic:before {
       background-image: url('../img/ethereum.svg');
     }

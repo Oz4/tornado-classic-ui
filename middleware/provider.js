@@ -31,6 +31,18 @@ const providerMiddleware = async ({ store }) => {
       return
     }
 
+    if (providerName === 'coinbaseWallet') {
+      let providerData = window.localStorage.getItem('coinbaseWallet')
+      if (!providerData) {
+        return
+      }
+
+      const { accounts, chainId } = ({ providerData } = JSON.parse(providerData))
+
+      await checkProvider({ store, accounts, chainId, providerName })
+      return
+    }
+
     if (providerName) {
       const provider = await store.getters['metamask/getEthereumProvider']()
 

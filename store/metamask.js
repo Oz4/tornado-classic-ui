@@ -5,7 +5,7 @@ import { SnackbarProgrammatic as Snackbar, DialogProgrammatic as Dialog } from '
 
 import { PROVIDERS } from '@/constants'
 import networkConfig from '@/networkConfig'
-import { walletConnectConnector } from '@/services'
+import { walletConnectConnector, coinbaseWalletConnector } from '@/services'
 
 import SanctionsListAbi from '@/abis/SanctionsList.abi'
 
@@ -58,6 +58,8 @@ const getters = {
     switch (state.providerName) {
       case 'walletConnect':
         return walletConnectConnector(netId || getters.netId)
+      case 'coinbaseWallet':
+        return coinbaseWalletConnector(netId || getters.netId)
       case 'metamask':
       case 'trustwallet':
       case 'imtoken':

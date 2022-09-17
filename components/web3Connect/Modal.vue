@@ -34,6 +34,13 @@
         >
           WalletConnect
         </button>
+        <button
+          class="button is-small is-background is-coinbaseWallet"
+          data-test="choose_wallet_option"
+          @click="_web3Connect('coinbaseWallet')"
+        >
+          Coinbase Wallet
+        </button>
       </div>
     </div>
   </div>

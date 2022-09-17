@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.3.20",
+    "@coinbase/wallet-sdk": "3.3.0",
     "@ensdomains/ensjs": "^2.1.0",
     "@metamask/onboarding": "^1.0.0",
     "@nuxtjs/moment": "^1.6.0",

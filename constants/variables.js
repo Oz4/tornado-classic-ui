@@ -67,6 +67,11 @@ export const PROVIDERS = {
     storageName: 'walletconnect',
     listener: 'walletConnectSocketListener'
   },
+  coinbaseWallet: {
+    name: 'Coinbase Wallet',
+    isPartialSupport: true,
+    storageName: 'coinbaseWallet'
+  },
   metamask: {
     name: 'Metamask',
     isPartialSupport: false
