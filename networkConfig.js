@@ -462,6 +462,10 @@ export default {
       Alchemy: {
         name: 'Alchemy',
         url: `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_GOERLI_KEY}`
+      },
+      Ankr: {
+        name: 'Ankr',
+        url: 'https://rpc.ankr.com/eth_goerli'
       }
     },
     tokens: {
