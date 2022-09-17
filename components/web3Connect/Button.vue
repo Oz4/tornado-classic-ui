@@ -49,7 +49,7 @@ export default {
         parent: this,
         component: Web3Connect,
         hasModalCard: true,
-        width: 440,
+        width: 580,
         props: {
           web3Connect: this.web3Connect
         }
